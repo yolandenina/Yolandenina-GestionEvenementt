@@ -1,19 +1,29 @@
 package com.evenement.gestionevenement.exception;
 
-public class ErrorDetails {
-    private String message;
-    private String details;
-    private String timestamp;
-    private Object status;
-    //private Object data;
+import lombok.Getter;
+import lombok.Setter;
 
-    public ErrorDetails(String message, String details, String timestamp, Object status) {
-        this.message = message;
-        this.details = details;
+import java.util.Date;
+
+@Getter @Setter
+public class ErrorDetails {
+    private Date timestamp;
+    private String message;
+    private String error;
+    private String details;
+
+    private Object object;
+
+    public ErrorDetails(Date timestamp, String message, String details, Object object, String error) {
         this.timestamp = timestamp;
-        this.status = status;
-        //this.data = data;
+        this.message = message;
+        this.error = error;
+        this.details = details;
+        this.object = object;
     }
 
+    public ErrorDetails(Date date, String errorMessage, String requestURI, String message) {
+        // Default constructor
+    }
 
 }

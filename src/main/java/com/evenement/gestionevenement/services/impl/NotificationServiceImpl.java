@@ -1,5 +1,6 @@
 package com.evenement.gestionevenement.services.impl;
 
+import com.evenement.gestionevenement.services.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service @Slf4j
-public class NotificationServiceImpl {
+public class NotificationServiceImpl implements NotificationService {
     private final JavaMailSender javaMailSender;
     @Value("${spring.mail.username}")
     private String emailSender;
@@ -18,6 +19,7 @@ public class NotificationServiceImpl {
         this.javaMailSender = javaMailSender;
     }
 
+    @Override
     public void sendEmail(String recipient, String subject, String message) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(recipient);

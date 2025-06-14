@@ -15,6 +15,7 @@ import java.util.Optional;
 @Service
 public class ParticipantServiceImpl implements ParticicpantService {
     private final ParticipantRepository participantRepository;
+    private static final String MESSAGE = "participant not found";
 
     public ParticipantServiceImpl(ParticipantRepository participantRepository) {
         this.participantRepository = participantRepository;
@@ -35,7 +36,7 @@ public class ParticipantServiceImpl implements ParticicpantService {
     public ParticipantDto getParticipantByUuid(String uuid) throws ResourceNotFoundException {
         Optional<Participant> repository = participantRepository.findByUuid(uuid);
         if (repository.isEmpty())
-            throw new ResourceNotFoundException("participant not found");
+            throw new ResourceNotFoundException(MESSAGE);
         return ParticipantDto.fromEntity(repository.get());
     }
 
@@ -43,7 +44,7 @@ public class ParticipantServiceImpl implements ParticicpantService {
     public void deleteParticipantByUuid(String uuid) throws ResourceNotFoundException {
         Optional<Participant> repository = participantRepository.findByUuid(uuid);
         if (repository.isEmpty())
-            throw new ResourceNotFoundException("participant not found");
+            throw new ResourceNotFoundException(MESSAGE);
         participantRepository.deleteById(repository.get().getIdParticipant());
     }
 
@@ -59,7 +60,7 @@ public class ParticipantServiceImpl implements ParticicpantService {
     public ParticipantDto updateParticipant(String uuid, ParticipantDto dto) throws ResourceNotFoundException {
         Optional<Participant> repository = participantRepository.findByUuid(uuid);
         if (repository.isEmpty())
-            throw new ResourceNotFoundException("participant not found");
+            throw new ResourceNotFoundException(MESSAGE);
         if (dto.getType().equals(UserTypeApp.PARTICIPANT)){
             dto.setUuid(uuid);
             Participant participant = ParticipantDto.toEntity(dto);

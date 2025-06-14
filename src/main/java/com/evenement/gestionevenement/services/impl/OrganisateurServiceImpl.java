@@ -15,6 +15,7 @@ import java.util.Optional;
 @Service
 public class OrganisateurServiceImpl implements OrganisateurService {
     private final OrganisateurRepository organisateurRepository;
+    private static final String MESSAGE = "organisateur not found";
 
     public OrganisateurServiceImpl(OrganisateurRepository organisateurRepository) {
         this.organisateurRepository = organisateurRepository;
@@ -24,7 +25,7 @@ public class OrganisateurServiceImpl implements OrganisateurService {
     public OrganisateurDto createOrganisateur(OrganisateurDto dto) throws ValidationException {
         Optional<Organisateur> email = organisateurRepository.findByEmail(dto.getEmail());
         if (email.isPresent())
-            throw new ValidationException("participant already exists");
+            throw new ValidationException("organisateur already exists");
         Organisateur organisateur = OrganisateurDto.toEntity(dto);
         dto.setType(UserTypeApp.ORGANISATEUR);
         Organisateur save = organisateurRepository.save(organisateur);
@@ -35,7 +36,7 @@ public class OrganisateurServiceImpl implements OrganisateurService {
     public OrganisateurDto getOrganisateurByUuid(String uuid) throws ResourceNotFoundException {
         Optional<Organisateur> repository = organisateurRepository.findByUuid(uuid);
         if (repository.isEmpty())
-            throw new ResourceNotFoundException("participant not found");
+            throw new ResourceNotFoundException(MESSAGE);
         return OrganisateurDto.fromEntity(repository.get());
     }
 
@@ -43,7 +44,7 @@ public class OrganisateurServiceImpl implements OrganisateurService {
     public void deleteOrganisateurByUuid(String uuid) throws ResourceNotFoundException {
         Optional<Organisateur> repository = organisateurRepository.findByUuid(uuid);
         if (repository.isEmpty())
-            throw new ResourceNotFoundException("participant not found");
+            throw new ResourceNotFoundException(MESSAGE);
         organisateurRepository.deleteById(repository.get().getIdOrganisateur());
     }
 
@@ -59,7 +60,7 @@ public class OrganisateurServiceImpl implements OrganisateurService {
     public OrganisateurDto updateOrganisateur(String uuid, OrganisateurDto dto) throws ResourceNotFoundException {
         Optional<Organisateur> repository = organisateurRepository.findByUuid(uuid);
         if (repository.isEmpty())
-            throw new ResourceNotFoundException("participant not found");
+            throw new ResourceNotFoundException(MESSAGE);
         if (dto.getType().equals(UserTypeApp.ORGANISATEUR)){
             dto.setUuid(uuid);
             Organisateur organisateur = OrganisateurDto.toEntity(dto);
