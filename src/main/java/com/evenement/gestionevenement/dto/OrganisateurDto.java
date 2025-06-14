@@ -21,13 +21,12 @@ public class OrganisateurDto {
     private UserTypeApp type;
 
     public static Organisateur toEntity(OrganisateurDto dto){
-        UserApp userApp = Participant.builder()
+        return (Organisateur) Organisateur.builder()
                 .username(dto.getUsername())
                 .password(dto.getPassword())
                 .email(dto.getEmail())
                 .type(dto.getType())
                 .build();
-        return (Organisateur) userApp;
     }
 
     public static OrganisateurDto fromEntity(Organisateur model){
