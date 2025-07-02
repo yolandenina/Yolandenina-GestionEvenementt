@@ -11,8 +11,8 @@ import org.hibernate.annotations.UuidGenerator;
 import java.io.Serializable;
 
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Builder @AllArgsConstructor @NoArgsConstructor @Getter @Setter
-@Entity @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,name = "user_app" , length = 9)
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter
+@Entity @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING,name = "user_app" , length = 20)
 public abstract class UserApp implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUser;

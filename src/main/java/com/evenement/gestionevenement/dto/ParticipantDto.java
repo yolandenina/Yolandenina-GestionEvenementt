@@ -19,20 +19,26 @@ public class ParticipantDto {
     private UserTypeApp type;
 
     public static Participant toEntity(ParticipantDto dto){
-        return (Participant) Participant.builder()
-                .username(dto.getUsername())
-                .password(dto.getPassword())
-                .email(dto.getEmail())
-                .type(dto.getType())
-                .build();
+        Participant model = new Participant();
+        model.setIdUser(dto.getIdUser());
+        model.setUuid(dto.getUuid());
+        model.setEmail(dto.getEmail());
+        model.setPassword(dto.getPassword());
+        model.setUsername(dto.getUsername());
+        model.setType(dto.getType());
+        return model;
     }
 
     public static ParticipantDto fromEntity(Participant model){
         ParticipantDto dto = new ParticipantDto();
+        dto.setIdUser(model.getIdUser());
+        dto.setUuid(model.getUuid());
         dto.setEmail(model.getEmail());
+        dto.setPassword(model.getPassword());
         dto.setUsername(model.getUsername());
         dto.setType(model.getType());
         return dto;
     }
+
 
 }

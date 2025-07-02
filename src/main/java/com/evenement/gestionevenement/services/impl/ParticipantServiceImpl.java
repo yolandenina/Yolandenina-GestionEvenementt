@@ -7,6 +7,7 @@ import com.evenement.gestionevenement.exception.ResourceNotFoundException;
 import com.evenement.gestionevenement.exception.ValidationException;
 import com.evenement.gestionevenement.repository.ParticipantRepository;
 import com.evenement.gestionevenement.services.ParticicpantService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.Optional;
 @Service
 public class ParticipantServiceImpl implements ParticicpantService {
     private final ParticipantRepository participantRepository;
+    private final PasswordEncoder passwordEncoder;
     private static final String MESSAGE = "participant not found";
 
-    public ParticipantServiceImpl(ParticipantRepository participantRepository) {
+    public ParticipantServiceImpl(ParticipantRepository participantRepository, PasswordEncoder passwordEncoder) {
         this.participantRepository = participantRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -27,7 +30,10 @@ public class ParticipantServiceImpl implements ParticicpantService {
         if (email.isPresent())
             throw new ValidationException("participant already exists");
         Participant participant = ParticipantDto.toEntity(dto);
+
         dto.setType(UserTypeApp.PARTICIPANT);
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+
         Participant savedParticipant = participantRepository.save(participant);
         return ParticipantDto.fromEntity(savedParticipant);
     }
@@ -45,7 +51,7 @@ public class ParticipantServiceImpl implements ParticicpantService {
         Optional<Participant> repository = participantRepository.findByUuid(uuid);
         if (repository.isEmpty())
             throw new ResourceNotFoundException(MESSAGE);
-        participantRepository.deleteById(repository.get().getIdParticipant());
+        participantRepository.deleteById(repository.get().getIdUser());
     }
 
     @Override

@@ -1,13 +1,16 @@
 package com.evenement.gestionevenement.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Builder @AllArgsConstructor @NoArgsConstructor
+import java.util.Date;
+
+@AllArgsConstructor @NoArgsConstructor @Getter
+@Setter
+@Builder
 public class EmailDetails {
-    private String recipient;
     private String subject;
-    private String message;
-    private String attachment;
+    private String body;
+    private String recipient;
+    private Date createAt;
+    private String sender;
 }

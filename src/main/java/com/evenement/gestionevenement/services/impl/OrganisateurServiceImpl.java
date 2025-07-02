@@ -7,6 +7,7 @@ import com.evenement.gestionevenement.exception.ResourceNotFoundException;
 import com.evenement.gestionevenement.exception.ValidationException;
 import com.evenement.gestionevenement.repository.OrganisateurRepository;
 import com.evenement.gestionevenement.services.OrganisateurService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.Optional;
 @Service
 public class OrganisateurServiceImpl implements OrganisateurService {
     private final OrganisateurRepository organisateurRepository;
+    private final PasswordEncoder passwordEncoder;
     private static final String MESSAGE = "organisateur not found";
 
-    public OrganisateurServiceImpl(OrganisateurRepository organisateurRepository) {
+    public OrganisateurServiceImpl(OrganisateurRepository organisateurRepository, PasswordEncoder passwordEncoder) {
         this.organisateurRepository = organisateurRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -26,11 +29,15 @@ public class OrganisateurServiceImpl implements OrganisateurService {
         Optional<Organisateur> email = organisateurRepository.findByEmail(dto.getEmail());
         if (email.isPresent())
             throw new ValidationException("organisateur already exists");
-        Organisateur organisateur = OrganisateurDto.toEntity(dto);
+
         dto.setType(UserTypeApp.ORGANISATEUR);
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        Organisateur organisateur = OrganisateurDto.toEntity(dto);
         Organisateur save = organisateurRepository.save(organisateur);
         return OrganisateurDto.fromEntity(save);
     }
+
 
     @Override
     public OrganisateurDto getOrganisateurByUuid(String uuid) throws ResourceNotFoundException {
@@ -45,7 +52,7 @@ public class OrganisateurServiceImpl implements OrganisateurService {
         Optional<Organisateur> repository = organisateurRepository.findByUuid(uuid);
         if (repository.isEmpty())
             throw new ResourceNotFoundException(MESSAGE);
-        organisateurRepository.deleteById(repository.get().getIdOrganisateur());
+        organisateurRepository.deleteById(repository.get().getIdUser());
     }
 
     @Override

@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity @DiscriminatorValue(value = "id_organisateur")
-@AllArgsConstructor @NoArgsConstructor @Getter @Setter
+@Entity @DiscriminatorValue(value = "ORGANISATEUR")
+@AllArgsConstructor @Getter @Setter
 public class Organisateur extends UserApp {
-    private Long idOrganisateur;
+    //private Long idOrganisateur;
 }
