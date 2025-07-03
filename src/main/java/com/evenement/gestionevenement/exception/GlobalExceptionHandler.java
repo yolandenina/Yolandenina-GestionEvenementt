@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
         String errorMessage = getMessage(ex.getMessage(), null, request.getLocale());
-        ErrorDetails errorDetails = new ErrorDetails(new Date(),errorMessage, request.getRequestURI(),ex.getMessage());
+        ErrorDetails errorDetails = new ErrorDetails(new Date(),errorMessage, LocalDateTime.now());
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
