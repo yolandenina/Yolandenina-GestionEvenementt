@@ -35,6 +35,7 @@ public class ParticipantApi {
     }
 
     @GetMapping("/participant/{uuid}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getParticipantByUuid(@PathVariable String uuid) {
         try {
             ParticipantDto participant = particicpantService.getParticipantByUuid(uuid);
@@ -46,7 +47,8 @@ public class ParticipantApi {
 
 
     @DeleteMapping("/participant/{uuid}")
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('DELETE_PARTICIPANT')") // sécurisation
+    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("hasRole('ADMIN') or hasAuthority('DELETE_PARTICIPANT')") // sécurisation
     public ResponseEntity<?> deleteParticipant(@PathVariable String uuid) {
         try {
             particicpantService.deleteParticipantByUuid(uuid);
@@ -57,13 +59,15 @@ public class ParticipantApi {
     }
 
     @GetMapping("/participants")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<ParticipantDto>> getAllParticipants() {
         List<ParticipantDto> participants = particicpantService.getAllParticipants();
         return ResponseEntity.ok(participants);
     }
 
     @PutMapping("/participant/{uuid}")
-    @PreAuthorize("hasRole('ADMIN') or #dto.email == authentication.name")
+    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("hasRole('ADMIN') or #dto.email == authentication.name")
     public ResponseEntity<?> updateParticipant(@PathVariable String uuid, @Valid @RequestBody ParticipantDto dto) {
         try {
             ParticipantDto updated = particicpantService.updateParticipant(uuid, dto);

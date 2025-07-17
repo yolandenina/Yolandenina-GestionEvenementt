@@ -57,7 +57,8 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public Map<String , String> authenticate(
             String grantType, boolean withRefreshToken,
-            String username, String password, String refreshToken, String otpCode) throws JwtError {
+            String username, String password,
+            String refreshToken, String otpCode) throws JwtError {
         Authentication authentication = null;
         String scope = null;
         String subject = null;

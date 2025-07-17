@@ -34,7 +34,8 @@ public class OrganisateurApi {
         }
     }
 
-    @GetMapping("/organisateur/{uuid}")
+    @GetMapping(path = "/organisateur/{uuid}")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> getOrganisateurByUuid(@PathVariable String uuid) {
         try {
             OrganisateurDto organisateur = organisateurService.getOrganisateurByUuid(uuid);
@@ -45,7 +46,8 @@ public class OrganisateurApi {
     }
 
     @DeleteMapping("/organisateur/{uuid}")
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('DELETE_ORGANISATEUR')")
+    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("hasRole('ADMIN') or hasAuthority('DELETE_ORGANISATEUR')")
     public ResponseEntity<?> deleteOrganisateur(@PathVariable String uuid) {
         try {
             organisateurService.deleteOrganisateurByUuid(uuid);
@@ -56,13 +58,15 @@ public class OrganisateurApi {
     }
 
     @GetMapping("/organisateurs")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<OrganisateurDto>> getAllOrganisateurs() {
         List<OrganisateurDto> organisateurs = organisateurService.getAllOrganisateurs();
         return ResponseEntity.ok(organisateurs);
     }
 
     @PutMapping("/organisateur/{uuid}")
-    @PreAuthorize("hasRole('ADMIN') or #dto.email == authentication.name")
+    @PreAuthorize("isAuthenticated()")
+    //@PreAuthorize("hasRole('ADMIN') or #dto.email == authentication.name")
     public ResponseEntity<?> updateOrganisateur(@PathVariable String uuid, @Valid @RequestBody OrganisateurDto dto) {
         try {
             OrganisateurDto updated = organisateurService.updateOrganisateur(uuid, dto);
