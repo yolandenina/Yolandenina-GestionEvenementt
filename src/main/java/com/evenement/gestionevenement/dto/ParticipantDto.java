@@ -1,5 +1,9 @@
 package com.evenement.gestionevenement.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import com.evenement.gestionevenement.entities.Participant;
 import com.evenement.gestionevenement.enums.UserTypeApp;
 import jakarta.validation.constraints.Email;

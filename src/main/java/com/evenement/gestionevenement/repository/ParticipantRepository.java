@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface ParticipantRepository extends JpaRepository<Participant,Long> {
     Optional<Participant> findByEmail(String email);
     Optional<Participant> findByUuid(String uuid);
+    boolean existsByEmail(String email);
+    void deleteByUuid(String uuid);
 }

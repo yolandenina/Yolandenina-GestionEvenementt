@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface OrganisateurRepository extends JpaRepository<Organisateur,Long> {
     Optional<Organisateur> findByEmail(String email);
     Optional<Organisateur> findByUuid(String uuid);
+    boolean existsByEmail(String email);
 }

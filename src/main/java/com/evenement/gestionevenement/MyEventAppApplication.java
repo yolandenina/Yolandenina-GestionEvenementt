@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MyEventAppApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(MyEventAppApplication.class, args);
 	}
 
